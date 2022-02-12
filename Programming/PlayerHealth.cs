@@ -22,8 +22,8 @@ public class PlayerHealth : MonoBehaviour
      * 
      */
 
-    // Field for starting health.
-    private int health;
+    // Field for starting health. It is public in case another aspect of the game needs to access it.
+    public int health;
 
     // Start is called before the first frame update
     void Start()
