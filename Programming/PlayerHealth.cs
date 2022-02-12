@@ -11,6 +11,7 @@ public class PlayerHealth : MonoBehaviour
      * 1. Make health field and when SOMETHING happens, lower health by 5. (For now, when space is pressed)
      * 2. Put the "check" in update function, and create UpdateHealthBar() method that does something visual on the screen.
      * 3. Initialize in Start()
+     * 4. Account for deadness.
      * 
      */
 
@@ -22,14 +23,21 @@ public class PlayerHealth : MonoBehaviour
      * 
      */
 
-    // Field for starting health. It is public in case another aspect of the game needs to access it.
+    // Field for starting health.
     public int health;
+
+    // Field for whether the player is dead (health is 0 or below) This will be important in the future.
+    public bool isDead;
+
 
     // Start is called before the first frame update
     void Start()
     {
         // Setting the starting health to 100
         health = 100;
+
+        // Setting isDead to false, because the player starts out alive.
+        isDead = false;
 
         // Printing out the starting health, which should always be 100.
         Debug.Log("Starting health: " + health);
@@ -41,14 +49,26 @@ public class PlayerHealth : MonoBehaviour
         // Checks if key pressed is space, if it is then run the code inside curly braces.
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            // Decrease health by 5.
-            health -= 5;
+            // Checks if health is equal to or below 0.
+            if (health <= 0)
+            {
+                // The player is now dead because the health is equal to or below 0.
+                isDead = true;
 
-            // Print the new health.
-            Debug.Log("Current health: " + health);
+                // Printing out that the player is dead. (Will be replaced with a game over like screen)
+                Debug.Log("The player is dead.");
+            }
+            else // This is run because the players health is above 0.
+            {
+                // Decrease health by 5.
+                health -= 5;
 
-            // Call this method to udpate the health bar that is on the screen (UI). I do not have the health bar thing (UI/UX), and Angel is making it so we will run this with the health bar.
-            // UpdateHealthBar();
+                // Print the new health.
+                Debug.Log("Current health: " + health);
+
+                // Call this method to udpate the health bar that is on the screen (UI). I do not have the health bar thing (UI/UX), and Angel is making it so we will run this with the health bar.
+                // UpdateHealthBar();
+            }
         }
-    }
+    }        
 }
