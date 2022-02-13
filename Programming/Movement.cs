@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Movement : MonoBehaviour
+public class Movement2 : MonoBehaviour
 {
 
     public float movementSpeed;
@@ -18,11 +18,11 @@ public class Movement : MonoBehaviour
     {
 
 
-        if (Input.GetKey("a") && !Input.GetKey("d")) //left
+        if ((Input.GetKey("a") || (Input.GetKey(KeyCode.LeftArrow)) )   && (!Input.GetKey("d") || (Input.GetKey(KeyCode.RightArrow))  )) //left
         {
             transform.position += transform.TransformDirection(Vector3.left) * Time.deltaTime * movementSpeed;//+= going 
         }
-        else if (Input.GetKey("d") && !Input.GetKey("a")) //right
+        else if ((Input.GetKey("d")||(Input.GetKey(KeyCode.RightArrow))) && (!Input.GetKey("a")||(Input.GetKey(KeyCode.LeftArrow))   )) //right
         {
             transform.position -= transform.TransformDirection(Vector3.left) * Time.deltaTime * movementSpeed; //-= going right
         }
