@@ -7,32 +7,41 @@ public class ShootingBullet : MonoBehaviour
 
     public Transform SpawnPoint;
     public GameObject Bullet;
-    public float speed = 5f;
+    public float speed = 10;
+
+    private bool isCoolDown = false;
+    private float coolDown = .5f;
 
 
 
-    // Start is called before the first frame update
-    void Start()
+
+    // Update is called once per frame
+    private void Update()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetKey("w"))
-        
-            ShootBullet();
-        
-    }
 
 
+        if ((Input.GetKeyDown(KeyCode.Space)) || (Input.GetKeyDown(KeyCode.UpArrow)))
+        {
+            if (isCoolDown == false)
+            {
+                Shoot();
+                StartCoroutine(CoolDown());
+            }
+        }
 
-    private void ShootBullet()
-    {
-        GameObject cB = Instantiate(Bullet, SpawnPoint.position, Bullet.transform.rotation);
-        Rigidbody rig = cB.GetComponent<Rigidbody>();
+        void Shoot()
+        {
+            var bullet = Instantiate(Bullet, SpawnPoint.position, Bullet.transform.rotation);
+            bullet.GetComponent<Rigidbody>().velocity = SpawnPoint.forward * speed;
+        }
 
-        rig.AddForce(SpawnPoint.forward * speed, ForceMode.Impulse);
+        IEnumerator CoolDown()
+        {
+            isCoolDown = true;
+            yield return new WaitForSeconds(coolDown);
+            isCoolDown = false;
+        }
+
     }
 }
+
