@@ -5,43 +5,75 @@ using UnityEngine;
 public class ShootingBullet : MonoBehaviour
 {
 
-    public Transform SpawnPoint;
-    public GameObject Bullet;
-    public float speed = 10;
+    /*
+    Notes:
+    1. Add hitting object in this script, not a new one... it was added in a new one to get the game object, but use the examples in this file to avoid that. (GameObject.Find("GameObject"))
+        |_ Add this to ShootBullet method
+     */
 
-    private bool isCoolDown = false;
-    private float coolDown = .5f;
+    // Public fields (Accessible throughout the project and on the inspector in the script component)
+    public Transform spawnPoint;
+    public GameObject bulletObject;
+    public float speed;
+
+    // Private fields (Only accessible in this file)
+    private Rigidbody bulletRigidbody;
+    private bool isCoolDown;
+    private float coolDown;
 
 
+    // Called once before the first frame.
+    void Start()
+    {
+        // Defining starting variables
+        speed = 10;
+        isCoolDown = false;
+        coolDown = 0.5f;
+
+        // This gets the position of the "Bullet" and stores it into a Transform variable. Note a Transform is NOT the same as a Vector3!
+        spawnPoint = GameObject.Find("Gun").transform;
+
+        // This store the GameObject "Bullet" in a GameObject variable.
+        bulletObject = GameObject.Find("Bullet");
+
+        // This gets the Rigidbody component of our "Bullet". You must add this component to the GameObject for it to work.
+        bulletRigidbody = bulletObject.GetComponent<Rigidbody>();
+    }
 
 
     // Update is called once per frame
-    private void Update()
+    void Update()
     {
-
-
+        // Checks if the key pressed is "space" or the "up arrow".
         if ((Input.GetKeyDown(KeyCode.Space)) || (Input.GetKeyDown(KeyCode.UpArrow)))
         {
+            // Checks if the cooldown is false (AKA if the cooldown is over)
             if (isCoolDown == false)
             {
-                Shoot();
+                // Calls the "ShootBullet" function that makes the bullet go across the screen.
+                ShootBullet();
+
+                // Starts the cooldown.
                 StartCoroutine(CoolDown());
             }
-        }
+        }      
+    }
 
-        void Shoot()
-        {
-            var bullet = Instantiate(Bullet, SpawnPoint.position, Bullet.transform.rotation);
-            bullet.GetComponent<Rigidbody>().velocity = SpawnPoint.forward * speed;
-        }
+    // This method handles the bullet moving across the screen and what occurs when something hits it.
+    void ShootBullet()
+    {
+        // Creates a new GameObject for each time the user shoots.
+        var bullet = Instantiate(bulletObject, spawnPoint.position, bulletObject.transform.rotation);
 
-        IEnumerator CoolDown()
-        {
-            isCoolDown = true;
-            yield return new WaitForSeconds(coolDown);
-            isCoolDown = false;
-        }
+        // Moves the bullet across the screen.
+        bullet.GetComponent<Rigidbody>().velocity = spawnPoint.forward * speed;
+    }
 
+    // This handles the cooling down for when the user can shoot, to avoid the user spamming.
+    IEnumerator CoolDown()
+    {
+        isCoolDown = true;
+        yield return new WaitForSeconds(coolDown);
+        isCoolDown = false;
     }
 }
-
