@@ -2,15 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Movement2 : MonoBehaviour
+public class Movement : MonoBehaviour
 {
-
     public float movementSpeed;
 
     // Use this for initialization
     void Start()
     {
-        //no start variables
+        movementSpeed = 5; // This can be changed depending on how fast you want it to move.
+
     }
 
     //Update is called once per frame
@@ -18,11 +18,11 @@ public class Movement2 : MonoBehaviour
     {
 
 
-        if ((Input.GetKey("a") || (Input.GetKey(KeyCode.LeftArrow)) )   && (!Input.GetKey("d") || (Input.GetKey(KeyCode.RightArrow))  )) //left
+        if ((Input.GetKey("a") || (Input.GetKey(KeyCode.LeftArrow))) && (!Input.GetKey("d") || (Input.GetKey(KeyCode.RightArrow)))) //left
         {
             transform.position += transform.TransformDirection(Vector3.left) * Time.deltaTime * movementSpeed;//+= going 
         }
-        else if ((Input.GetKey("d")||(Input.GetKey(KeyCode.RightArrow))) && (!Input.GetKey("a")||(Input.GetKey(KeyCode.LeftArrow))   )) //right
+        else if ((Input.GetKey("d") || (Input.GetKey(KeyCode.RightArrow))) && (!Input.GetKey("a") || (Input.GetKey(KeyCode.LeftArrow)))) //right
         {
             transform.position -= transform.TransformDirection(Vector3.left) * Time.deltaTime * movementSpeed; //-= going right
         }
