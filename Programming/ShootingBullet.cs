@@ -30,7 +30,7 @@ public class ShootingBullet : MonoBehaviour
         isCoolDown = false;
         coolDown = 0.5f;
 
-        // This gets the position of the "Bullet" and stores it into a Transform variable. Note a Transform is NOT the same as a Vector3!
+        // This gets the position of the "Gun" and stores it into a Transform variable. Note a Transform is NOT the same as a Vector3!
         spawnPoint = GameObject.Find("Gun").transform;
 
         // This store the GameObject "Bullet" in a GameObject variable.
