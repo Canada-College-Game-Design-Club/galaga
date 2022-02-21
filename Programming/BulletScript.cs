@@ -2,10 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BulletScript : MonoBehaviour
+public class Bullet : MonoBehaviour
 {
-    private void OnCollisionEnter(Collision collision)
+    public float life = 3;
+
+    void Awake()
     {
+        Destroy(gameObject, life);//bullet destroy object
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        Destroy(collision.gameObject);
         Destroy(gameObject);
     }
 }
