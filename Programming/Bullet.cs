@@ -8,12 +8,31 @@ public class Bullet : MonoBehaviour
 
     void Awake()
     {
-        Destroy(gameObject, life);//bullet destroy object
+        Collider powerUp = GameObject.Find("ScrapMetal").GetComponent<BoxCollider>();
+
+        // Check if the object hit is the scrap metal. if it is not the scrap metal than Destroy.
+        if (Vector3.Distance(powerUp.transform.position, gameObject.transform.position) < 5)
+        {
+            Destroy(gameObject, life);//bullet destroy object
+        }
+
+        // For later maybe?
+
+        // Ignore this!!
+
+        //else
+        //{
+        //    Destroy(gameObject, life);//bullet destroy object
+        //}
     }
 
     void OnCollisionEnter(Collision collision)
     {
-        Destroy(collision.gameObject);
-        Destroy(gameObject);
+
+        if (collision.gameObject.tag != "ScrapMetal" && collision.gameObject.tag != "Gun" && collision.gameObject.tag != "Player")
+        {
+            Destroy(collision.gameObject);
+            Destroy(gameObject);
+        }
     }
 }
