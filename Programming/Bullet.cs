@@ -15,15 +15,6 @@ public class Bullet : MonoBehaviour
         {
             Destroy(gameObject, life);//bullet destroy object
         }
-
-        // For later maybe?
-
-        // Ignore this!!
-
-        //else
-        //{
-        //    Destroy(gameObject, life);//bullet destroy object
-        //}
     }
 
     void OnCollisionEnter(Collision collision)
