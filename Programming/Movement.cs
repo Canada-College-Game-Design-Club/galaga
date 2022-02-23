@@ -2,34 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ContinousMoving : MonoBehaviour
+public class Movement : MonoBehaviour
 {
+    // Fields
     public float movementSpeed;
-    public float enemyMovementSpeed;
 
-    // Start is called before the first frame update
+    // Use this for initialization and is only run once, at the beginning.
     void Start()
     {
-        movementSpeed = 2.5f; // Speed of player
-        enemyMovementSpeed = -1f; // Speed of enemy
+        movementSpeed = 7; // This can be changed depending on how fast you want the player to move. (Left and right)
+
     }
 
-    // Update is called once per frame
-    void Update()
+    // FixedUpdate runs 50 times a second. This is faster and more effecient for movement.
+    void FixedUpdate()
     {
-        // Check tags
-        // if tag is "player", move forward, if tag is "enemy" move backwards. camera, forwards
-        if (gameObject.tag == "Player")
+        if ((Input.GetKey("a") || (Input.GetKey(KeyCode.LeftArrow))) && (!Input.GetKey("d") || (Input.GetKey(KeyCode.RightArrow)))) //left
         {
-            transform.position += transform.forward * Time.deltaTime * movementSpeed;
+            transform.position -= transform.right * Time.deltaTime * movementSpeed;//+= going 
         }
-        else if (gameObject.tag == "MainCamera")
+        else if ((Input.GetKey("d") || (Input.GetKey(KeyCode.RightArrow))) && (!Input.GetKey("a") || (Input.GetKey(KeyCode.LeftArrow)))) //right
         {
-            Camera.main.transform.position += Camera.main.transform.up * Time.deltaTime * movementSpeed;
-        }
-        else if (gameObject.tag == "Enemy")
-        {
-            transform.position += transform.forward * Time.deltaTime * enemyMovementSpeed;
+            transform.position += transform.right * Time.deltaTime * movementSpeed; //-= going right
         }
     }
 }
