@@ -62,6 +62,8 @@ public class PowerUp : MonoBehaviour
         BoxCollider powerUp = GameObject.Find("ScrapMetal").GetComponent<BoxCollider>() as BoxCollider;
         powerUp.isTrigger = true;
 
+        ContinousMoving.powerUpMovementSpeed = 0;
+
         Debug.Log("Powerup activated");
     }
 
