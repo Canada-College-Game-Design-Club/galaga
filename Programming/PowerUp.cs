@@ -44,6 +44,7 @@ public class PowerUp : MonoBehaviour
         if (isActivated)
         {
             transform.position += transform.forward * Time.deltaTime * contMovementSpeed;
+
         }
     }
 
@@ -58,6 +59,8 @@ public class PowerUp : MonoBehaviour
         scrapMetal.transform.position = new Vector3(player.x, player.y, player.z + 2); // Set the location of the scrapmetal to the location of the player (for now)
 
         isActivated = true;
+        BoxCollider powerUp = GameObject.Find("ScrapMetal").GetComponent<BoxCollider>() as BoxCollider;
+        powerUp.isTrigger = true;
 
         Debug.Log("Powerup activated");
     }
