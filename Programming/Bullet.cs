@@ -12,11 +12,6 @@ public class Bullet : MonoBehaviour
         {
             Destroy(collision.gameObject);
             Destroy(gameObject);
-        } else if (collision.gameObject.tag == "ScrapMetal")
-        {
-            Debug.Log("Scrap Metal hit");
-            BoxCollider powerUp = GameObject.Find("ScrapMetal").GetComponent<BoxCollider>() as BoxCollider;
-            powerUp.isTrigger = true;
-        }
+        } 
     }
 }
