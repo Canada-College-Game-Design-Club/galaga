@@ -37,6 +37,12 @@ public class PowerUp : MonoBehaviour
             Debug.Log("Activate Powerup");
             ActivateShield();
         }
+        else if (collision.gameObject.tag == "Enemy")
+        {
+            Debug.Log("Hit");
+            Destroy(gameObject);
+            Destroy(collision.gameObject);
+        }
     }
 
     void Update()
