@@ -19,7 +19,7 @@ public class ShootingBullet : MonoBehaviour
         if ((Input.GetKeyDown(KeyCode.Space)) || (Input.GetKeyDown(KeyCode.UpArrow)))
         {
             // Checking the state of the cooldown.
-            if (isCoolDown == false)
+            if (!isCoolDown)
             {
                 // Shooting
                 Shoot();
@@ -27,7 +27,12 @@ public class ShootingBullet : MonoBehaviour
                 // Starting the cooldown
                 StartCoroutine(CoolDown());
             }
-        }        
+        }
+        if (!isCoolDown && GameObject.Find("ScrapMetal") != null)
+        {
+            BoxCollider powerUp = GameObject.Find("ScrapMetal").GetComponent<BoxCollider>() as BoxCollider;
+            powerUp.isTrigger = false;
+        }
     }
 
     // Method for shooting
@@ -36,6 +41,12 @@ public class ShootingBullet : MonoBehaviour
         // Creating the new bullet.
         var bullet = Instantiate(bulletObject, spawnPoint.position, bulletObject.transform.rotation);
 
+        if (GameObject.Find("ScrapMetal") != null)
+        {
+            BoxCollider powerUp = GameObject.Find("ScrapMetal").GetComponent<BoxCollider>() as BoxCollider;
+            powerUp.isTrigger = false;
+        }
+
         // Using physics compmonent to move the bullet forward.
         bullet.GetComponent<Rigidbody>().velocity = spawnPoint.forward * speed;
     }
@@ -43,6 +54,12 @@ public class ShootingBullet : MonoBehaviour
     // Cooldown
     IEnumerator CoolDown()
     {
+        if (GameObject.Find("ScrapMetal") != null)
+        {
+            BoxCollider powerUp = GameObject.Find("ScrapMetal").GetComponent<BoxCollider>() as BoxCollider;
+            powerUp.isTrigger = true;
+        }
+
         isCoolDown = true;
         yield return new WaitForSeconds(coolDown);
         isCoolDown = false;
