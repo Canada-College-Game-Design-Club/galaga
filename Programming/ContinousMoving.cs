@@ -27,7 +27,7 @@ public class ContinousMoving : MonoBehaviour
         {
             Camera.main.transform.position += Camera.main.transform.up * Time.deltaTime * movementSpeed;
         }
-        else if (gameObject.tag == "Enemy")
+        else if (gameObject.tag == "Enemy" || gameObject.tag == "ScrapMetal")
         {
             transform.position += transform.forward * Time.deltaTime * enemyMovementSpeed;
         }
