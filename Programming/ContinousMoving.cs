@@ -7,13 +7,15 @@ public class ContinousMoving : MonoBehaviour
     public float movementSpeed;
     public float enemyMovementSpeed;
     public static float powerUpMovementSpeed;
+    public static float sideCarMovementSpeed;
 
     // Start is called before the first frame update
     void Start()
     {
         movementSpeed = 2.5f; // Speed of player
         enemyMovementSpeed = -1f; // Speed of enemy
-        powerUpMovementSpeed = -1f;
+        powerUpMovementSpeed = -1f; // Speed of scrap metal
+        sideCarMovementSpeed = -1f; // Speed of side cars
     }
 
     // Update is called once per frame
@@ -36,6 +38,10 @@ public class ContinousMoving : MonoBehaviour
         else if (gameObject.tag == "ScrapMetal")
         {
             transform.position += transform.forward * Time.deltaTime * powerUpMovementSpeed;
+        }
+        else if (gameObject.tag == "SideCars")
+        {
+            transform.position += transform.forward * Time.deltaTime * sideCarMovementSpeed;
         }
     }
 }
