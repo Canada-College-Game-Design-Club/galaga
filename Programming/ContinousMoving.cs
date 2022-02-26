@@ -6,12 +6,14 @@ public class ContinousMoving : MonoBehaviour
 {
     public float movementSpeed;
     public float enemyMovementSpeed;
+    public static float powerUpMovementSpeed;
 
     // Start is called before the first frame update
     void Start()
     {
         movementSpeed = 2.5f; // Speed of player
         enemyMovementSpeed = -1f; // Speed of enemy
+        powerUpMovementSpeed = -1f;
     }
 
     // Update is called once per frame
@@ -27,9 +29,13 @@ public class ContinousMoving : MonoBehaviour
         {
             Camera.main.transform.position += Camera.main.transform.up * Time.deltaTime * movementSpeed;
         }
-        else if (gameObject.tag == "Enemy" || gameObject.tag == "ScrapMetal")
+        else if (gameObject.tag == "Enemy")
         {
             transform.position += transform.forward * Time.deltaTime * enemyMovementSpeed;
+        }
+        else if (gameObject.tag == "ScrapMetal")
+        {
+            transform.position += transform.forward * Time.deltaTime * powerUpMovementSpeed;
         }
     }
 }
