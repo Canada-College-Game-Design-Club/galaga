@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -24,7 +25,7 @@ public class PlayerHealth : MonoBehaviour
      */
 
     // Field for starting health.
-    public int health;
+    public static int health;
 
     // Field for whether the player is dead (health is 0 or below) This will be important in the future.
     public bool isDead;
