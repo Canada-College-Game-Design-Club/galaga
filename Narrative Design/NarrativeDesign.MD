@@ -1,1 +1,0 @@
-# Narrative Design folder
