@@ -19,12 +19,15 @@ public class HealthUpgrade : MonoBehaviour
         // Checks if the the health upgrade is touching the player.
         if (collision.gameObject.tag == "Player")
         {
-            Debug.Log("Increasing health");
+            if (PlayerHealth.health < 100)
+            {
+                Debug.Log("Increasing health");
 
-            // Increases the players health through the other script.
-            PlayerHealth.health = PlayerHealth.health + healthToUpgrade;
+                // Increases the players health through the other script.
+                PlayerHealth.health = PlayerHealth.health + healthToUpgrade;
 
-            Debug.Log("New health: " + PlayerHealth.health);
+                Debug.Log("New health: " + PlayerHealth.health);
+            }
         }
     }
 }
