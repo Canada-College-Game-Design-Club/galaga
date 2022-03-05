@@ -1,0 +1,50 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class enemy2 : MonoBehaviour
+{
+    public Transform[] waypoints; //waypoints
+    public int speed; //speed of enemy
+    private int waypointIndex;//how many waypoints
+    private float dist; //distance
+
+
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        waypointIndex = 0; //waypoint index to 0
+        transform.LookAt(waypoints[waypointIndex].position);//AI look at the direction of the waypoints
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        //distane between AI and its position
+        dist = Vector3.Distance(transform.position, waypoints[waypointIndex].position);
+
+        if(dist < 1f)//check distance in range
+        {
+            IncreaseIndex();
+        }
+        Patrol(); //then run patrol 
+    }
+
+    void Patrol()
+    {
+        transform.Translate(Vector3.forward * speed * Time.deltaTime);
+        //z axis of AI, movement speed 
+    }
+    void IncreaseIndex()
+    {
+        waypointIndex++;
+        if(waypointIndex >= waypoints.Length) //check if index is away from waypoints
+        {
+            waypointIndex = 0;
+        }
+        //make sure that the transform is looking at the new waypoint
+        transform.LookAt(waypoints[waypointIndex].position);
+    }
+}
