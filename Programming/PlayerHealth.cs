@@ -1,28 +1,12 @@
 using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
 public class PlayerHealth : MonoBehaviour
 {
 
-    // Plan:
-
-    /*
-     * 1. Make health field and when SOMETHING happens, lower health by 5. (For now, when space is pressed)
-     * 2. Put the "check" in update function, and create UpdateHealthBar() method that does something visual on the screen.
-     * 3. Initialize in Start()
-     * 4. Account for deadness.
-     * 
-     */
-
-    // Constraints:
-
-    /* 
-     * 1. Health will not be a decimal; it will remain a whole number.
-     * 2. Health will have range of 1-100.
-     * 
-     */
+   
 
     // Field for starting health.
     public static int health;
@@ -30,20 +14,34 @@ public class PlayerHealth : MonoBehaviour
     // Field for whether the player is dead (health is 0 or below) This will be important in the future.
     public bool isDead;
     public GameObject player;
-    
-    
+
     public static int currentHealth;
     public int maxHealth = 100;
-    public  HealthBar healthBar;
+    public HealthBar healthBar;
 
 
     public Text test;
     public bool flag = false;
 
+    // Field for changing material depending on player health 
+    public Material[] material;
+    Renderer rend;
+
+
 
     // Start is called before the first frame update
     void Start()
     {
+     
+        // start
+        // geting material components to change color of player when lower health
+        rend = GetComponent<Renderer>();
+        rend.enabled = true;
+        rend.sharedMaterial = material[0];
+        //end
+
+
+
         // Setting the starting health to 100
         health = 100;
 
@@ -53,13 +51,18 @@ public class PlayerHealth : MonoBehaviour
         // Printing out the starting health, which should always be 100.
         Debug.Log("Starting health: " + health);
 
+
         test.text = " ";
         flag = false;
 
         currentHealth = maxHealth;
         healthBar.SetMaxHealth(maxHealth);
 
+
     }
+
+
+   
 
     // Update is called once per frame
     void Update()
@@ -94,9 +97,30 @@ public class PlayerHealth : MonoBehaviour
                 // Call this method to udpate the health bar that is on the screen (UI). I do not have the health bar thing (UI/UX), and Angel is making it so we will run this with the health bar.
                 // UpdateHealthBar();
             } //}
-            
+
         }
+
+    
+        //if health is lower or equal to 25 Material changes to set color
+        if (health <= 25)
+        {
+            rend.sharedMaterial = material[1];
+        }
+        //if health is greater than 25 and lower or equal to 99 Material changes to set color
+        else if (health > 25 && health <=74)
+        {
+            rend.sharedMaterial = material[2];
+        }
+        //if health is higher or equal to 100 Material changes to set color
+        else if (health >= 75)
+        {
+            rend.sharedMaterial = material[0];
+        }
+
+        
     }
+
+
     public IEnumerator oneSecond()
     {
         flag = false;
@@ -105,32 +129,37 @@ public class PlayerHealth : MonoBehaviour
     }
 
 
-        void DecreaseText()
-        {
-            flag = false;
-            if (!flag)
-            {
-                test.text = "";
-            }
-
-        }
-        void death()
+    void DecreaseText()
     {
-        if (gameObject.tag == "Player")
-        { 
-            Destroy(gameObject);
+        flag = false;
+        if (!flag)
+        {
+            test.text = "";
         }
+
     }
+
 
     void TakeDamage(int damage)
     {
         currentHealth -= damage;
         healthBar.SetHealth(currentHealth);
-       if (flag)
-            {
-                test.text = "- 5";
-            }
-     }
+        if (flag)
+        {
+            test.text = "- 5";
+        }
+    }
 
+
+
+
+    //death is called from health <= 0... player object is destroyed
+    void death()
+    {
+        if (gameObject.tag == "Player")
+        {
+            Destroy(gameObject);
+        }
+    }
 
 }
