@@ -1,0 +1,38 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class enemy : MonoBehaviour
+{
+    private Transform player; //player position
+    private float dist;//distance
+    public float moveSpeed; //enemy speed
+    public float howclose; //how close to player to attack
+
+  
+
+    void Start()
+    {
+        player = GameObject.FindGameObjectWithTag("Player").transform; //find player with Tag
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        dist = Vector3.Distance(player.position, transform.position);
+                                // player position, enemy position
+        if (dist <= howclose) // if enemy player close move to player 
+        {
+            transform.LookAt(player); // enemy look at player
+            GetComponent<Rigidbody>().AddForce(transform.forward * moveSpeed); // enemy move towards the player 
+        }
+
+        //shoot
+        if(dist <= 1.5f) //if distance is close
+        {
+            //shoot
+
+        }
+    }
+}
