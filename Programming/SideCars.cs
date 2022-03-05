@@ -5,14 +5,14 @@ using UnityEngine;
 public class SideCars : MonoBehaviour
 {
 
-    public GameObject sideCars;
-    public Vector3 player;
-    public float contMovementSpeed;
-    public bool sideCarsActivated;
+    public GameObject sideCars; //gets the side cars object from the hierarchy 
+    public Vector3 player; //gets the player for movement
+    public float contMovementSpeed;// for continous movement script
+    public bool sideCarsActivated; // sets true or false
     public float movementSpeed; // Speed of player left/right
 
-    private GameObject sideCar2;
-
+    private GameObject sideCar2;//this will be the 2nd car that is created during game
+    public static bool sideCarGun;//made static so that SCShootingBullet can access it, makes sideCarGun True or false.
 
     // Start is called before the first frame update
     void Start()
@@ -21,6 +21,7 @@ public class SideCars : MonoBehaviour
         contMovementSpeed = 3.5f;
         sideCarsActivated = false;
         movementSpeed = 7;
+        sideCarGun = false;
     }
 
     void OnCollisionEnter(Collision collision)
@@ -29,43 +30,73 @@ public class SideCars : MonoBehaviour
         // Checks if the side car is touching the player, if yes then activate the power up.
         if (collision.gameObject.tag == "Player")
         {
+
             Debug.Log("Activating Side Cars");
-            ActivateSideCars();
+            activateSideCars();// calls activateSideCars function
+            StartCoroutine(sideCarTimer()); // starts SideCars timer after collision
+
         }
+
+
+
     }
 
-    void ActivateSideCars()
+    //timer that destroys side car power up after a certain time
+    public IEnumerator sideCarTimer()
     {
-        // Set location to player with changed x axis to move left
-        // Duplicate (Instatiate)
-        // Set new side cars location to player with changed x axis to move right
 
-        Debug.Log("Activate Side Cars");
 
-        sideCarsActivated = true;
+        yield return new WaitForSeconds(10f);
 
-        player = GameObject.Find("Player").transform.position;
+        if (gameObject.tag == "SideCars")
+        {
+            sideCarsActivated = false;
+            Destroy(gameObject);
+            Destroy(sideCar2);
+            Debug.Log("Side Cars OFF");
+        }
 
-        ContinousMoving.sideCarMovementSpeed = 0;
+    }
 
-        transform.position = new Vector3(player.x + 2, player.y, player.z);
 
-        sideCar2 = Instantiate(sideCars, new Vector3(player.x - 2, player.y, player.z), sideCars.transform.rotation);
+        void activateSideCars()
+    {
+        // after function is called, it checks to see if both sideCarsActivated and sideCarGun is set to false.
+        if (!sideCarsActivated && !sideCarGun)
+        {
+            //if both are false, do stuff
 
-        Debug.Log("Activated.");
+            Debug.Log("Activate Side Cars");
+
+            sideCarsActivated = true;
+
+            player = GameObject.Find("Player").transform.position; //gets the player object
+
+            //  ContinousMoving.sideCarMovementSpeed = 0;
+
+            transform.position = new Vector3(player.x + 2, player.y, player.z); // sets sidecar next to player
+
+            // creates a second side car and places it on the other side of player position.
+            sideCar2 = Instantiate(sideCars, new Vector3(player.x - 2, player.y, player.z), sideCars.transform.rotation);
+
+
+            Debug.Log("Activated.");
+        }
+       
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        if (sideCarsActivated)
-        {
-            transform.position += transform.forward * Time.deltaTime * contMovementSpeed;
-            sideCar2.transform.position += transform.forward * Time.deltaTime * contMovementSpeed;
+     void Update()
+     {
+
+     if (sideCarsActivated) //checks if sideCarsActivated is true throughout the whole run time.
+         {
+             sideCarGun = true; //sets the sideCarGun True, will be checked by SCShootingBullet.cs
         }
+
     }
 
-    // This is just keeping the scrap metal shield moving with the player.
+    // This is just keeping the side cars moving with the player.
     void FixedUpdate()
     {
         if (sideCarsActivated)
