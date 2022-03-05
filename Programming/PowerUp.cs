@@ -1,82 +1,110 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PowerUp : MonoBehaviour
 {
 
-    // I will comment this better tomorrow.
-
-
-    // Fields
     public GameObject scrapMetal;
     public Vector3 player;
     public bool isActivated;
 
+
     public float movementSpeed;
     public float contMovementSpeed;
 
+    public static float currentTime;
+    public static float maxTime = 10f;
+    public PowerUpBar powerBar;
+ 
+
     void Start()
     {
-        // Setting the fields
+        // Setting the starting fields
         scrapMetal = GameObject.Find("ScrapMetal");
         isActivated = false;
 
         movementSpeed = 7; // Speed of moving with player left and right
         contMovementSpeed = 2.5f; // Speed of moving with player forward (should be same as player speed)
+
+        currentTime = maxTime;
+        powerBar.SetMaxTime(maxTime);
+
     }
 
-    // Checks if there is a collision
+
     void OnCollisionEnter(Collision collision)
     {
-        // Collider powerUp = GameObject.Find("ScrapMetal").GetComponent<BoxCollider>();
-
-        // Checks if the scrap metal is touching the player, if yes then activate the power up.
-        if (collision.gameObject.tag == "Player")
+        if (collision.gameObject.tag == "Player")//checks to see if the collision is with the main Player
         {
             Debug.Log("Activate Powerup");
             ActivateShield();
-        }
-        else if (collision.gameObject.tag == "Enemy")
-        {
-            Debug.Log("Hit");
-            Destroy(gameObject);
-            Destroy(collision.gameObject);
+            maxTime = 10f;
+            currentTime = maxTime;
+            powerBar.SetMaxTime(currentTime);
+            InvokeRepeating("Subtract", 1f, 1f);
+            StartCoroutine(powerUpCoolDown());
+           
         }
     }
 
-    void Update()
+    //timer that destroys PowerUp after a set time.
+    public IEnumerator powerUpCoolDown()
     {
-        if (isActivated)
+      
+        yield return new WaitForSeconds(10f);
+       
+        if (gameObject.tag == "ScrapMetal")
         {
-            transform.position += transform.forward * Time.deltaTime * contMovementSpeed;
-
+           
+            isActivated = false;
+            Destroy(gameObject);
         }
-    }
 
-    // Method for activating the power up shield.
+    Debug.Log("Scrap Metal OFF");
+    }
+   
+        
+    void Subtract()
+        {
+           currentTime -= 1f;
+           powerBar.SetTime(currentTime);
+                
+        }
+           
+    
+
+
+
+
     void ActivateShield()
     {
         Debug.Log("Power up starting");
 
-        player = GameObject.Find("Player").transform.position;
+        player = GameObject.Find("Player").transform.position; //finds player and its positions
 
-        // Moves the scrap metal shield in front of the player (maybe an animation)
-        scrapMetal.transform.position = new Vector3(player.x, player.y, player.z + 2); // Set the location of the scrapmetal to the location of the player (for now)
+        scrapMetal.transform.position = new Vector3(player.x, player.y, player.z + 5); // Set the location of the scrapmetal to the location of the player (for now)
 
         isActivated = true;
+      
         BoxCollider powerUp = GameObject.Find("ScrapMetal").GetComponent<BoxCollider>() as BoxCollider;
         powerUp.isTrigger = true;
 
-        ContinousMoving.powerUpMovementSpeed = 0;
 
+        
         Debug.Log("Powerup activated");
     }
 
-    // This is just keeping the scrap metal shield moving with the player.
+
+   
+
+
+
     void FixedUpdate()
     {
-        if (isActivated)
+        if (isActivated)//checks to see if powerup isActivated = true, if true it proceeds to take the inputs so it can move along
+            //with the main player
         {
             if ((Input.GetKey("a") || (Input.GetKey(KeyCode.LeftArrow))) && (!Input.GetKey("d") || (Input.GetKey(KeyCode.RightArrow)))) //left
             {
