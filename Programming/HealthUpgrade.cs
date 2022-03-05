@@ -24,8 +24,8 @@ public class HealthUpgrade : MonoBehaviour
 
         test.text = " ";
         flag = false;
-        
-     }
+
+    }
 
     void OnCollisionEnter(Collision collision)
     {
@@ -42,13 +42,13 @@ public class HealthUpgrade : MonoBehaviour
                 IncreaseHealth();
 
                 StartCoroutine(oneSecond());
-                
-                
+
+
                 Debug.Log("New health: " + PlayerHealth.health);
 
             }
         }
-       
+
 
 
     }
@@ -78,7 +78,5 @@ public class HealthUpgrade : MonoBehaviour
         {
             test.text = "";
         }
-
     }
-
-}   
+}
