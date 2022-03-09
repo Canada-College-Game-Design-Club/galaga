@@ -59,7 +59,7 @@ public class SideCars : MonoBehaviour
     }
 
 
-        void activateSideCars()
+    void activateSideCars()
     {
         // after function is called, it checks to see if both sideCarsActivated and sideCarGun is set to false.
         if (!sideCarsActivated && !sideCarGun)
@@ -82,16 +82,16 @@ public class SideCars : MonoBehaviour
 
             Debug.Log("Activated.");
         }
-       
+
     }
 
     // Update is called once per frame
-     void Update()
-     {
+    void Update()
+    {
 
-     if (sideCarsActivated) //checks if sideCarsActivated is true throughout the whole run time.
-         {
-             sideCarGun = true; //sets the sideCarGun True, will be checked by SCShootingBullet.cs
+        if (sideCarsActivated) //checks if sideCarsActivated is true throughout the whole run time.
+        {
+            sideCarGun = true; //sets the sideCarGun True, will be checked by SCShootingBullet.cs
         }
 
     }
